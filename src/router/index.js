@@ -22,6 +22,7 @@ import News from "@/views/News";
 import repairApply from "@/views/RepairApply";
 import repairProcess from "@/views/RepairProcess";
 import dataCount from "@/views/DataCount";
+import RoomType from "@/views/RoomType";
 
 Vue.use(VueRouter)
 //1.创建路由
@@ -36,6 +37,7 @@ const routes = [
             //子路由
             {path: '/home', name: "home", component: Home}, //首页
             {path: '/roomdata', name: "roomdata", component: RoomData},
+            {path: '/roomtype', name: "roomtype", component: RoomType},
             {path: '/bookmanage', name: "bookmanage", component: BookManage},
             {path: '/examine', name: "examine", component: ExamineManage},
             {path: '/apply', name: "apply", component: ApplyManage},
@@ -103,7 +105,7 @@ VueRouter.prototype.push = function push (location) {
 
 router.beforeEach((to, from, next) => {
     const publicRoutes = ['/login', '/register']; // 公共页面，不需要登录就可以访问的页面
-    const adminPaths = ["/user", "/roomdata", "/examine", "/notice","/repairProcess", "/dataCount"]; // 需要管理员权限的页面
+    const adminPaths = ["/user", "/roomdata", "/roomtype", "/examine", "/notice","/repairProcess", "/dataCount"]; // 需要管理员权限的页面
     const user = JSON.parse(localStorage.getItem('honey-user') || '{}');
     const token = user.token;
 

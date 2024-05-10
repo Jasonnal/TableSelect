@@ -139,6 +139,13 @@ export default {
           url: "Home/Home",
         },
         {
+          path: "/roomtype",
+          name: "roomtype",
+          label: "教室类型管理",
+          icon: "video-play",
+          url: "RoomType/RoomType",
+        },
+        {
           path: "/roomdata",
           name: "roomdata",
           label: "教室信息管理",
