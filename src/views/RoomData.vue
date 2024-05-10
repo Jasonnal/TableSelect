@@ -127,7 +127,7 @@ export default {
       }).then(res => {
         if (res.code === '200') {
           this.$message.success("保存成功")
-          this.load(1)
+          this.load(this.pageNum)
           this.roomVisible = false
         } else {
           this.$message.error(res.msg)
@@ -144,7 +144,7 @@ export default {
           }).then(res => {
             if (res.code === '200') {
               this.$message.success("保存成功")
-              this.load(1)
+              this.load(this.pageNum)
               this.roomVisible = false
             } else {
               this.$message.error(res.msg)
@@ -158,7 +158,7 @@ export default {
         this.$request.delete('/room/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
-            this.load(1)
+            this.load(this.pageNum)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
           }
