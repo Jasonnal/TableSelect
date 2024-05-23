@@ -13,7 +13,7 @@
       </el-card>
       <el-card style="margin-top: 20px; height: 735px">
         <h1 style="text-align: center">当前时段教室预约情况</h1>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%" :cell-style="{fontSize:'20px'}">
           <el-table-column prop="name" label="教室名"></el-table-column>
           <el-table-column prop="status" label="预约状态">
             <template v-slot="{ row }">

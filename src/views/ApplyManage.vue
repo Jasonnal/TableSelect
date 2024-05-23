@@ -1,9 +1,9 @@
 <template>
   <div>
-    <el-table :data="reservationList" stripe>
+    <el-table :data="reservationList" stripe  :cell-style="{fontSize:'20px'}" >
       <el-table-column type="index" label="序号" width="70" align="center"></el-table-column>
       <el-table-column prop="name" label="教室名"></el-table-column>
-      <el-table-column prop="username" label="预约人"></el-table-column>
+<!--      <el-table-column prop="username" label="预约人"></el-table-column>-->
       <el-table-column prop="day" label="预约日期">
         <template v-slot="scope">
           {{ formatDate(scope.row.day) }}
@@ -157,7 +157,7 @@ export default {
           if (res.code === '200') {
             this.$message.success('取消预约成功');
             // 刷新预约记录列表
-            this.fetchReservations(1);
+            this.fetchReservations(this.pageNum);
           } else {
             this.$message.error('取消预约失败：' + res.msg);
           }
@@ -182,6 +182,7 @@ export default {
           return '审核不通过';
       }
     },
+
     getUsageText(row) {
       const currentTime = new Date(); // 当前时间
       const reservationStartTime = new Date(`${this.formatDate(row.day)}T${this.formatTime(row.startTime)}`); // 预约的开始时间
@@ -204,7 +205,6 @@ export default {
         } else {
           return '使用中'
         }
-
       }
     },
     formatDate(dateArray) {
@@ -222,7 +222,7 @@ export default {
       return `${formattedHours}:${formattedMinutes}`;
     },
     isDisabled(row) {
-      if (row.repairStatus != 0) {
+      if (row.repairStatus === 1 || row.repairStatus === 2) {
         return true
       }
       return false

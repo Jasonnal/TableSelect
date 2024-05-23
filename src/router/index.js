@@ -105,7 +105,7 @@ VueRouter.prototype.push = function push (location) {
 
 router.beforeEach((to, from, next) => {
     const publicRoutes = ['/login', '/register']; // 公共页面，不需要登录就可以访问的页面
-    const adminPaths = ["/user", "/roomdata", "/roomtype", "/examine", "/notice","/repairProcess", "/dataCount"]; // 需要管理员权限的页面
+    const adminPaths = ["/user", "/roomdata", "/roomtype", "/examine", "/notice","/repairProcess", "/datacount"]; // 需要管理员权限的页面
     const user = JSON.parse(localStorage.getItem('honey-user') || '{}');
     const token = user.token;
 

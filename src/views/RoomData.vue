@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="myroom">
     <div>
       <el-input style="width: 200px" placeholder="查询教室名" v-model="name"></el-input>
       <el-input style="width: 200px; margin: 0 5px" placeholder="查询教室类型" v-model="type"></el-input>
@@ -10,15 +10,16 @@
       <el-button type="primary" plain @click="handleAdd">新增</el-button>
       <el-button type="danger" plain @click="delBatch">批量删除</el-button>
     </div>
-    <el-table :data="tableData" stripe :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }"
+    <el-table :data="tableData" stripe :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }" :cell-style="{fontSize:'20px'}"
               @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column type="index" label="序号" width="70" align="center"></el-table-column>
+
       <el-table-column prop="name" label="教室名"></el-table-column>
       <el-table-column prop="capacity" label="教室容量"></el-table-column>
-      <el-table-column prop="type" label="教室类型"></el-table-column>
+      <el-table-column prop="typeName" label="教室类型"></el-table-column>
       <el-table-column prop="location" label="教室位置"></el-table-column>
-      <el-table-column prop="description" label="教室描述"></el-table-column>
+      <el-table-column prop="description" label="教室描述" show-overflow-tooltip></el-table-column>
       <el-table-column label="是否公开">
         <template v-slot="scope">
           <el-switch v-model="scope.row.open" @change="changeOpen(scope.row)"></el-switch>
@@ -53,11 +54,15 @@
         <el-form-item label="教室名" prop="name">
           <el-input v-model="form.name" placeholder="教室名"></el-input>
         </el-form-item>
-        <el-form-item label="教室容量" prop="capacity">
-          <el-input v-model="form.capacity" placeholder="容量"></el-input>
-        </el-form-item>
         <el-form-item label="教室类型" prop="type">
-          <el-input v-model="form.type" placeholder="类型"></el-input>
+          <el-select v-model="form.tid" placeholder="请选择类型">
+            <el-option
+                v-for="item in typeOptions"
+                :key="item.id"
+                :label="item.typeName"
+                :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="教室位置" prop="location">
           <el-input v-model="form.location" placeholder="位置"></el-input>
@@ -93,6 +98,7 @@ export default {
   data() {
     return {
       fileList: [], //照片列表
+      typeOptions:[],//教室类型列表
       tableData: [], //表格里的数据
       form: {}, //对话框的form
       pageNum: 1,   // 当前的页码
@@ -112,11 +118,13 @@ export default {
   },
   created() {
     this.load()
+
   },
   methods: {
     handleEdit(row) {
       this.fileList = []
       this.form = JSON.parse(JSON.stringify(row))
+      this.selectLsit()
       this.roomVisible = true
     },
     sendSaveRequest() {
@@ -197,7 +205,13 @@ export default {
         }
       })
     },
-
+    selectLsit(){
+      this.$request.get("/type/selectAll").then(res=>{
+        if(res.code==="200"){
+          this.typeOptions=res.data
+        }
+      })
+    },
     reset() {
       this.name = ''
       this.type = ''
@@ -228,6 +242,7 @@ export default {
     handleAdd() {
       this.fileList = []
       this.form = {}
+      this.selectLsit()
       this.roomVisible = true
     },
     delBatch() {
@@ -252,4 +267,5 @@ export default {
 </script>
 
 <style>
+.el-tooltip__popper{ max-width:300px !important; }
 </style>

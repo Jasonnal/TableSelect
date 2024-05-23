@@ -10,7 +10,7 @@
       <el-button type="primary" plain @click="handleAdd">新增</el-button>
       <el-button type="danger" plain @click="delBatch">批量删除</el-button>
     </div>
-    <el-table :data="tableData" stripe :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }"
+    <el-table :data="tableData" stripe :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }" :cell-style="{fontSize:'20px'}"
               @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column type="index" label="序号" width="70" align="center"></el-table-column>

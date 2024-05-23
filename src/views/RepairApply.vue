@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="reservationList" stripe>
+    <el-table :data="reservationList" stripe :cell-style="{fontSize:'20px'}">
       <el-table-column type="index" label="序号" width="70" align="center"></el-table-column>
       <el-table-column prop="name" label="教室名"></el-table-column>
       <el-table-column prop="username" label="报修人"></el-table-column>

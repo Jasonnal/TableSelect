@@ -6,14 +6,14 @@
       <el-button type="primary" @click="load(1)">查询</el-button>
       <el-button type="info" @click="reset">重置</el-button>
     </div>
-    <el-table :data="tableData" stripe :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }">
+    <el-table :data="tableData" stripe :header-cell-style="{ backgroundColor: 'aliceblue', color: '#666' }" :cell-style="{fontSize:'20px'}">
       <el-table-column type="index" label="序号" width="70" align="center"></el-table-column>
       <el-table-column prop="name" label="教室名"></el-table-column>
       <el-table-column prop="capacity" label="教室容量"></el-table-column>
-      <el-table-column prop="type" label="教室类型"></el-table-column>
+      <el-table-column prop="typeName" label="教室类型"></el-table-column>
       <el-table-column prop="location" label="教室位置"></el-table-column>
       <!-- TODO 删除了教室状态，把教室状态存储在预定表里 -->
-      <el-table-column prop="description" label="教室描述"></el-table-column>
+      <el-table-column prop="description" label="教室描述" show-overflow-tooltip></el-table-column>
       <el-table-column label="教室图片">
         <template v-slot="scope">
           <div style="display: flex; align-items: center">
@@ -300,4 +300,6 @@ export default {
 .el-button+.el-button, .el-checkbox.is-bordered+.el-checkbox.is-bordered{
   margin-left: 0;
 }
+.el-tooltip__popper{ max-width:300px !important; }
+
 </style>
