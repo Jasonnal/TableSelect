@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js';
 
 export default {
   name: "Register",
@@ -43,18 +44,19 @@ export default {
     // 验证码校验
     const validatePassword = (rule, confirmPass, callback) => {
       if (confirmPass === '') {
-        callback(new Error('请确认密码'))
+        callback(new Error('请确认密码'));
       } else if (confirmPass !== this.user.password) {
-        callback(new Error('两次输入的密码不一致'))
+        callback(new Error('两次输入的密码不一致'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       user: {
         username: '',
         password: '',
-        confirmPass: ''
+        confirmPass: '',
+        role: ''
       },
       rules: {
         username: [
@@ -70,30 +72,35 @@ export default {
           { validator: validatePassword, trigger: 'blur' }
         ],
       }
-    }
-  },
-  created() {
-
+    };
   },
   methods: {
+    encryptPassword(password) {
+      return CryptoJS.MD5(password).toString();
+    },
     register() {
       this.$refs['registerRef'].validate((valid) => {
         if (valid) {
+          // Encrypt the password before sending
+          this.user.password = this.encryptPassword(this.user.password);
+          this.user.confirmPass = this.encryptPassword(this.user.confirmPass);
+
           // 验证通过
           this.$request.post('/register', this.user).then(res => {
             if (res.code === '200') {
-              this.$router.push('/login')
-              this.$message.success('注册成功')
+              this.$router.push('/login');
+              this.$message.success('注册成功');
             } else {
-              this.$message.error(res.msg)
+              this.$message.error(res.msg);
             }
-          })
+          });
         }
-      })
+      });
     }
   }
 }
 </script>
+
 
 <style scoped>
 .register-container {

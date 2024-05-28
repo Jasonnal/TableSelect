@@ -103,7 +103,7 @@
 
 <script>
 import ValidCode from '@/views/ValidCode'
-
+import CryptoJS from 'crypto-js';
 export default {
   name: "Login",
   components: {
@@ -142,7 +142,7 @@ export default {
           path: "/roomtype",
           name: "roomtype",
           label: "教室类型管理",
-          icon: "video-play",
+          icon: "bank-card",
           url: "RoomType/RoomType",
         },
         {
@@ -205,7 +205,7 @@ export default {
           path: "/dataCount",
           name: "dataCount",
           label: "数据统计",
-          icon: "circle-plus-outline",
+          icon: "s-data",
           url: "DataCount/DataCount",
         },
         {
@@ -262,7 +262,7 @@ export default {
           path: "/repairApply",
           name: "repairApply",
           label: "报修记录",
-          icon: "circle-plus-outline",
+          icon: "s-claim",
           url: "RepairApply/RepairApply",
         },
         {
@@ -310,6 +310,9 @@ export default {
 
   },
   methods: {
+    encryptPassword(password) {
+      return CryptoJS.MD5(password).toString();
+    },
 
     //初始化表单
     handleForgetPass() {
@@ -334,17 +337,22 @@ export default {
     login() {
       this.$refs['loginRef'].validate((valid) => {
         if (valid) {
-          // 验证通过
-          this.$request.post('/login', this.user).then(res => {
+          // 对密码进行MD5加密
+          const encryptedPassword = this.encryptPassword(this.user.password);
+          const userToLogin = {
+            ...this.user,
+            password: encryptedPassword
+          };
+          // 发送请求
+          this.$request.post('/login', userToLogin).then(res => {
             if (res.code === '200') {
               if (res.data.role === "管理员") {
                 this.$store.commit('setMenu', this.menuData1)
               } else {
                 this.$store.commit('setMenu', this.menuData2)
               }
-              //解决点击两下跳转的bug
-              // this.$router.push('/home')
-              location.reload();
+              this.$router.push('/'); // 登录成功后导航到主页
+               location.reload();
               this.$message.success('登录成功')
               localStorage.setItem("honey-user", JSON.stringify(res.data))  // 存储用户数据
             } else {

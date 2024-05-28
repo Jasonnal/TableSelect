@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import CryptoJS from "crypto-js";
+
 export default {
   data() {
 
@@ -51,6 +53,9 @@ export default {
     };
   },
   methods: {
+    encryptPassword(password) {
+      return CryptoJS.MD5(password).toString();
+    },
     update() {
 
       this.$refs.formRef.validate((valid) => {
@@ -58,9 +63,14 @@ export default {
         if (valid) {
 
           this.user.password = this.form.newPassword
-
+          // 对密码进行MD5加密
+          const encryptedPassword = this.encryptPassword(this.user.password);
+          const userToLogin = {
+            ...this.user,
+            password: encryptedPassword
+          };
           //TODO:验证通过后推送数据到数据库 狗屎代码其他controller里面也能显示
-          this.$request.put('/user/update', this.user).then(res => {
+          this.$request.put('/user/resetpsw', userToLogin).then(res => {
             if (res.code === '200') {
               this.$message.success("修改成功")
               localStorage.removeItem('honey-user')

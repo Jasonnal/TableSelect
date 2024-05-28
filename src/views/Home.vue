@@ -6,7 +6,7 @@
         <div class="user">
           <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt=""/>
           <div class="userinfo">
-            <p class="name">{{ userInfo.username }}</p>
+            <p class="name">{{ userInfo.name }}</p>
             <p class="access">{{ userInfo.role }}</p>
           </div>
         </div>

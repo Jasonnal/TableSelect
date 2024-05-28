@@ -49,10 +49,11 @@ export default {
   methods: {
     update() {
       // 保存当前的用户信息到数据库
+      this.$message.success('保存成功')
       this.$request.put('/user/update', this.user).then(res => {
         if (res.code === '200') {
           // 成功更新
-          this.$message.success('保存成功')
+
 
           // 更新浏览器缓存里的用户信息
           localStorage.setItem('honey-user', JSON.stringify(this.user))

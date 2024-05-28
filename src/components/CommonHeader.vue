@@ -35,6 +35,7 @@
 <script>
 //获取mutation的方法
 import { mapState } from "vuex";
+import CryptoJS from 'crypto-js';
 export default {
   data() {
     return {
@@ -42,6 +43,10 @@ export default {
     };
   },
   methods: {
+    encryptPassword(password) {
+      return CryptoJS.MD5(password).toString();
+    },
+
     change(){
       this.user=JSON.parse(localStorage.getItem('honey-user') || '{}')
     },

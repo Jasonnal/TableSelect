@@ -33,7 +33,7 @@
     </div>
 
     <el-dialog title="教室类型" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false">
-      <el-form :model="form" label-width="80px" style="padding-right: 20px" :rules="rules" ref="formRef">
+      <el-form :model="form" label-width="90px" style="padding-right: 20px" :rules="rules" ref="formRef">
         <el-form-item label="教室类型名" prop="typeName">
           <el-input v-model="form.typeName" placeholder="教室类型名称"></el-input>
         </el-form-item>
